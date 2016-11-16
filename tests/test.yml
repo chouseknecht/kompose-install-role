@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  connection: local
+  remote_user: root
+  roles:
+    - role: kompose-install-role
+      kompose_dest: "{{ playbook_dir }}/test_install"
+
+  tasks:
+    - name: Stat kompose binary 
+      stat:
+        path: "{{ playbook_dir }}/test_install/kompose"
+      register: output
+
+    - name: Binary should exist
+      assert:
+        that: output.stat.exists
+
+    - name: Binary should be executable
+      assert:
+        that: output.stat.xusr 
+      
+    - name: Try it
+      command: "{{ playbook_dir }}/test_install/kompose"
+      register: kompose_output 
+
+    - name: Show output
+      debug:
+        var: kompose_output
+
+    - name: Should find expected output
+      assert:
+        that: "'A tool helping' in kompose_output.stdout"
+

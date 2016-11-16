@@ -1,0 +1,67 @@
+---
+# Install kompose release
+
+- name: Set get_latest 
+  set_fact:
+    get_latest: true
+  when: not kompose_release_id and not kompose_release_tag_name 
+
+- name: Set get_latest 
+  set_fact:
+    get_latest: false 
+  when: kompose_release_id or kompose_release_tag_name 
+
+- name: Get the release by tag name
+  uri:
+    url: "{{ kompose_github_url }}/{{ kompose_github_user }}/{{ kompose_github_name }}/tags/{{ kompose_release_tag_name }}"
+    body_format: json
+    return_content: yes
+  register: release
+  when: kompose_release_tag_name
+
+- name: Get the release by id
+  uri:
+    url: "{{ kompose_github_url }}/{{ kompose_github_user }}/{{ kompose_github_name }}/releases/{{ kompose_release_id }}"
+    body_format: json
+    return_content: yes
+  register: release
+  when: kompose_release_id
+
+- name: Get the latest release 
+  uri:
+    url: "{{ kompose_github_url }}/{{ kompose_github_user }}/{{ kompose_github_name }}/releases/latest"
+  register: release
+  when: get_latest
+
+- name: Show the release name
+  debug:
+    msg: "Got release {{ release.json.name }}" 
+  
+- name: Get the list of assets
+  uri:
+    url: "{{ release.json.assets_url }}"
+  register: assets
+
+- name: Set desired asset for OSX
+  set_fact:
+    asset_name: kompose_darwin-amd64.tar.gz 
+  when: not kompose_asset_name and ansible_os_family == "Darwin"
+
+- name: Set desired asset for Linux
+  set_fact: 
+    asset_name: kompose_linux-amd64.tar.gz 
+  when: "not kompose_asset_name and ansible_os_family in ['Debian', 'RedHat']"
+
+- name: Set desired asset name from kompose_asset_name
+  set_fact:
+    asset_name: "{{ kompose_asset_name }}"
+  when: kompose_asset_name
+
+- name: asset_name should be defined
+  assert:
+    that: asset_name is defined
+  
+- name: Download the asset
+  include: download.yml
+  with_items: "{{ assets.json }}"
+

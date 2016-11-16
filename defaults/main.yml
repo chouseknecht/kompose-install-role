@@ -1,0 +1,9 @@
+---
+kompose_github_user: kubernetes-incubator
+kompose_github_name: kompose
+kompose_github_url: https://api.github.com/repos
+kompose_asset_name: 
+kompose_release_id: 
+kompose_release_tag_name:
+kompose_release_name:
+kompose_dest: /usr/bin/kompose
