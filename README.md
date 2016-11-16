@@ -4,6 +4,8 @@
 
 Use to download and unarchive the latest [kompose](https://github.com/kubernetes-incubator/kompose) release asset for your OS.
 
+If you're unfamiliar with Kompose, it's a tool for converting Docker Compose to Kubernetes resources.
+
 ## Requirements
 
 - Accesses the GitHub API to find the release and it's assets, so you'll need internet access.
