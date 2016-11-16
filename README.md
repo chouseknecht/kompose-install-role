@@ -4,7 +4,7 @@
 
 Use to download and unarchive the latest [kompose](https://github.com/kubernetes-incubator/kompose) release asset for your OS.
 
-If you're unfamiliar with Kompose, it's a tool for converting Docker Compose to Kubernetes resources.
+If you're unfamiliar with Kompose, it's a CLI tool to help users familiar with docker-compose move to Kubernetes. It will take a Docker Compose file and translate it into Kubernetes resources. Use it to generate the configuration files, or to launch the application directly on your Kubernetes cluster.
 
 ## Requirements
 
