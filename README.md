@@ -1,5 +1,6 @@
-
 # kompose-install-role
+
+[![Build Status](https://travis-ci.org/chouseknecht/kompose-install-role.svg?branch=master)](https://travis-ci.org/chouseknecht/kompose-install-role)
 
 Use to download and unarchive the latest [kompose](https://github.com/kubernetes-incubator/kompose) release asset for your OS.
 
@@ -29,10 +30,6 @@ kompose_release_tag_name:
 
 kompose_dest: /usr/bin/kompose
 > Destination directory where the binary should be placed.
-
-## Dependencies
-
-None
 
 ## Example Playbook
 
